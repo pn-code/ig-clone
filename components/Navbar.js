@@ -14,7 +14,7 @@ import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
     return (
-        <div>
+        <div className="shadow-sm border-b bg-white sticky top-0 z-50">
             <div className="flex justify-between items-center max-w-6xl mx-5 lg:mx-auto">
                 {/* Left */}
                 <div>
@@ -53,14 +53,20 @@ const Navbar = () => {
 
                 {/* Right / Modal*/}
                 <div>
-                    <div className="hidden lg:flex items-center justify-end gap-3">
-                        <AiFillHome className="navBtn"size={24} />
-                        <AiOutlineMenu className="navBtn" size={24} />
-                        <BiPaperPlane className="navBtn"size={24} />
-                        <BiPlusCircle className="navBtn"size={24} />
-                        <HiOutlineUserGroup className="navBtn"size={24} />
-                        <AiOutlineHeart className="navBtn"size={24} />
-                        <CgProfile className="navBtn"size={24} />
+                    <div className="flex items-center justify-end space-x-4">
+                        <AiFillHome className="navBtn" size={24} />
+                        <AiOutlineMenu className="md:hidden" size={24} />
+                        <div className="relative navBtn hidden lg:visible">
+                            <BiPaperPlane className="navBtn" size={24} />
+                            <div className="absolute -top-2 -right-2 text-xs w-5 h-5 text-white bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+                                3
+                            </div>
+                        </div>
+
+                        <BiPlusCircle className="navBtn" size={24} />
+                        <HiOutlineUserGroup className="navBtn" size={24} />
+                        <AiOutlineHeart className="navBtn" size={24} />
+                        <CgProfile className="navBtn" size={24} />
                     </div>
                 </div>
             </div>
