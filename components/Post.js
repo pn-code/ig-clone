@@ -3,8 +3,8 @@ import { BiDotsHorizontalRounded, BiPaperPlane } from "react-icons/bi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import {
     BsChatDots,
-    BsFillEmojiHeartEyesFill,
     BsBookmark,
+    BsEmojiSmile,
 } from "react-icons/bs";
 
 const Post = ({ id, username, userAvatar, img, caption }) => {
@@ -40,6 +40,11 @@ const Post = ({ id, username, userAvatar, img, caption }) => {
             </p>
             {/* Comments */}
             {/* Input Box */}
+            <form className="flex items-center p-4">
+                <BsEmojiSmile size={24}/>
+                <input type="text" placeholder="Add a comment..." className="border-none flex-1 focus:ring-0 outline-none"/>
+                <button className="font-semibold text-blue-400">Post</button>
+            </form>
         </div>
     );
 };
