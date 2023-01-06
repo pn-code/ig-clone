@@ -16,7 +16,7 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div>
+            <div className="w-full">
                 <Navbar />
                 <Feed />
                 <button onClick={() => signIn()}>Login</button>

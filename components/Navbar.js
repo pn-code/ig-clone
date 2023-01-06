@@ -4,7 +4,6 @@ import Link from "next/link";
 import { SiInstagram } from "react-icons/si";
 import { BiSearch, BiPaperPlane, BiPlusCircle } from "react-icons/bi";
 import {
-    AiOutlinePlusCircle,
     AiFillHome,
     AiOutlineHeart,
     AiOutlineMenu,
@@ -62,7 +61,6 @@ const Navbar = () => {
                                 3
                             </div>
                         </div>
-
                         <BiPlusCircle className="navBtn" size={24} />
                         <HiOutlineUserGroup className="navBtn" size={24} />
                         <AiOutlineHeart className="navBtn" size={24} />
