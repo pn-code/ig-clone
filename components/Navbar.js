@@ -3,15 +3,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiInstagram } from "react-icons/si";
 import { BiSearch, BiPaperPlane, BiPlusCircle } from "react-icons/bi";
-import {
-    AiFillHome,
-    AiOutlineHeart,
-    AiOutlineMenu,
-} from "react-icons/ai";
+import { AiFillHome, AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi";
-import { CgProfile } from "react-icons/cg";
+import { useSession, signIn, signOut } from "next-auth/react";
 
 const Navbar = () => {
+    const { data: session } = useSession();
+    console.log(session);
+
     return (
         <div className="shadow-sm border-b bg-white sticky top-0 z-50">
             <div className="flex justify-between items-center max-w-6xl mx-5 lg:mx-auto">
@@ -55,16 +54,34 @@ const Navbar = () => {
                     <div className="flex items-center justify-end space-x-4">
                         <AiFillHome className="navBtn" size={24} />
                         <AiOutlineMenu className="md:hidden" size={24} />
-                        <div className="relative navBtn hidden lg:visible">
-                            <BiPaperPlane className="navBtn" size={24} />
-                            <div className="absolute -top-2 -right-2 text-xs w-5 h-5 text-white bg-red-500 rounded-full flex items-center justify-center animate-pulse">
-                                3
-                            </div>
-                        </div>
-                        <BiPlusCircle className="navBtn" size={24} />
-                        <HiOutlineUserGroup className="navBtn" size={24} />
-                        <AiOutlineHeart className="navBtn" size={24} />
-                        <CgProfile className="navBtn" size={24} />
+                        {session ? (
+                            <>
+                                <div className="relative navBtn hidden lg:visible">
+                                    <BiPaperPlane
+                                        className="navBtn"
+                                        size={24}
+                                    />
+                                    <div className="absolute -top-2 -right-2 text-xs w-5 h-5 text-white bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+                                        3
+                                    </div>
+                                </div>
+                                <BiPlusCircle className="navBtn" size={24} />
+                                <HiOutlineUserGroup
+                                    className="navBtn"
+                                    size={24}
+                                />
+                                <AiOutlineHeart className="navBtn" size={24} />
+
+                                <img
+                                    className="h-8 rounded-full cursor-pointer"
+                                    src={session?.user?.image}
+                                    alt="profile picture"
+                                    onClick={signOut}
+                                />
+                            </>
+                        ) : (
+                            <button onClick={signIn}>Sign In</button>
+                        )}
                     </div>
                 </div>
             </div>
