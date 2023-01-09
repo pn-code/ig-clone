@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { faker } from "@faker-js/faker";
 import Story from "./Story";
+import { useSession } from "next-auth/react";
 
 const Stories = () => {
+    const { data: session } = useSession();
     const [suggestions, setSuggestions] = useState([]);
 
     // Populate app with random users
@@ -31,6 +33,7 @@ const Stories = () => {
     return (
         // Rendered list of stories
         <div className="flex bg-white space-x-2 mt-8 p-6 border-gray-200 border rounded-sm overflow-x-scroll scrollbar-thin scrollbar-thumb-black">
+            {session && <Story img={session.user.image} username={session.user.username}/>}
             {suggestions.map((profile) => (
                 <Story
                     key={profile.userId}

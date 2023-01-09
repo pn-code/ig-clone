@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useSession, signIn, signOut } from "next-auth/react";
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
+import Modal from "../components/Modal";
 
 export default function Home() {
     return (
@@ -15,11 +16,10 @@ export default function Home() {
                 />
                 <link rel="icon" href="/favicon.png" />
             </Head>
-            <div className="w-full">
-                <Navbar />
-                <Feed />
-                <button onClick={() => signIn()}>Login</button>
-            </div>
+
+            <Navbar />
+            <Feed />
+            <Modal />
         </div>
     );
 }

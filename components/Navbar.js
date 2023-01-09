@@ -6,11 +6,12 @@ import { BiSearch, BiPaperPlane, BiPlusCircle } from "react-icons/bi";
 import { AiFillHome, AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { useSession, signIn, signOut } from "next-auth/react";
+import { useRecoilState } from "recoil";
+import { modalState } from "../atoms/modalAtom";
 
 const Navbar = () => {
     const { data: session } = useSession();
-    
-    console.log(session);
+    const [open, setOpen] = useRecoilState(modalState);
 
     return (
         <div className="shadow-sm border-b bg-white sticky top-0 z-50">
@@ -53,7 +54,9 @@ const Navbar = () => {
                 {/* Right / Modal*/}
                 <div>
                     <div className="flex items-center justify-end space-x-4">
-                        <AiFillHome className="navBtn" size={24} />
+                        <Link href="/">
+                            <AiFillHome className="navBtn" size={24} />
+                        </Link>
                         <AiOutlineMenu className="md:hidden" size={24} />
                         {session ? (
                             <>
@@ -66,7 +69,7 @@ const Navbar = () => {
                                         3
                                     </div>
                                 </div>
-                                <BiPlusCircle className="navBtn" size={24} />
+                                <BiPlusCircle onClick={() => setOpen(true)}className="navBtn" size={24} />
                                 <HiOutlineUserGroup
                                     className="navBtn"
                                     size={24}
