@@ -2,11 +2,11 @@ import mongoose from 'mongoose'
 
 const PostSchema = new mongoose.Schema({
   username: String,
-  title: String,
-  text: String,
+  caption: String,
   date: Date,
-  image: File,
-  likes: Number
+  image: String,
+  likes: Number,
+  comments: Number
 })
 
-module.exports = mongoose.model('Post', PostSchema, "igPost")
+module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema)
