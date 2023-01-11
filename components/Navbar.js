@@ -69,7 +69,7 @@ const Navbar = () => {
                                         3
                                     </div>
                                 </div>
-                                <BiPlusCircle onClick={() => setOpen(true)}className="navBtn" size={24} />
+                                <BiPlusCircle onClick={() => setOpen(true)} className="navBtn" size={24} />
                                 <HiOutlineUserGroup
                                     className="navBtn"
                                     size={24}
