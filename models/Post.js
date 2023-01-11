@@ -1,13 +1,20 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
+
+const commentSchema = new mongoose.Schema({
+    username: String,
+    avatar: String,
+    comment: String,
+    date: Date,
+});
 
 const PostSchema = new mongoose.Schema({
-  username: String,
-  avatar: String,
-  caption: String,
-  date: Date,
-  image: String,
-  likes: Number,
-  comments: Number
-})
+    username: String,
+    avatar: String,
+    caption: String,
+    date: Date,
+    image: String,
+    likes: Number,
+    comments: Array,
+});
 
-module.exports = mongoose.models.Post || mongoose.model('Post', PostSchema)
+module.exports = mongoose.models.Post || mongoose.model("Post", PostSchema);

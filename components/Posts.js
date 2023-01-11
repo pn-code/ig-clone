@@ -11,7 +11,7 @@ const Posts = () => {
     }, []);
 
     return <div>
-        {posts.map(post => <Post id={post._id} key={post._id} username={post.username} avatar={post.avatar} caption={post.caption} image={post.image} date={post.date}/>)}
+        {posts.map(post => <Post id={post._id} key={post._id} username={post.username} avatar={post.avatar} caption={post.caption} image={post.image} date={post.date} comments={post.comments}/>)}
     </div>;
 };
 

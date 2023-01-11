@@ -26,7 +26,7 @@ export default async function handler(req, res) {
                     caption: req.body.caption,
                     date: Date.now(),
                     likes: 0,
-                    comments: 0
+                    comments: []
                 };
 
                 const post = await new Post(postDetail);

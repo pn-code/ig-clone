@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiDotsHorizontalRounded, BiPaperPlane } from "react-icons/bi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsChatDots, BsBookmark, BsEmojiSmile } from "react-icons/bs";
 import { useSession } from "next-auth/react";
+import axios from "axios";
 
-const Post = ({ id, username, userAvatar, image, caption }) => {
+const Post = ({ id, username, avatar, image, caption, date, comments}) => {
     const { data: session } = useSession();
+    const [comment, setComment] = useState("");
+
+    useEffect(() => {
+        
+    }, [])
+
+    const sendComment = async (e) => {
+        e.preventDefault();
+
+        const commentToSend = {
+            username: session.user.username,
+            avatar: session.user.image,
+            date: Date.now(),
+            comment,
+        };
+
+        setComment("");
+
+        const data = await axios.put(`/api/posts/${id}`, { _id: id, comment: commentToSend});
+        console.log(data);
+    };
 
     return (
         <div className="bg-white my-7 border rounded-sm">
@@ -13,7 +35,7 @@ const Post = ({ id, username, userAvatar, image, caption }) => {
             <div className="flex items-center p-5">
                 <img
                     className="rounded-full w-12 h-12 object-contain border border-red-400 p-1 mr-3"
-                    src={userAvatar}
+                    src={avatar}
                     alt=""
                 />
                 <p className="flex-1 font-bold">{username}</p>
@@ -42,16 +64,24 @@ const Post = ({ id, username, userAvatar, image, caption }) => {
                 {caption}
             </p>
             {/* Comments */}
+            { comments.map(comment => <p>{comment.comment}</p>)}
             {/* Input Box */}
             {session && (
                 <form className="flex items-center p-4">
                     <BsEmojiSmile size={24} />
                     <input
                         type="text"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
                         placeholder="Add a comment..."
                         className="border-none flex-1 focus:ring-0 outline-none"
                     />
-                    <button className="font-semibold text-blue-400">
+                    <button
+                        type="submit"
+                        onClick={sendComment}
+                        disabled={!comment.trim()}
+                        className="font-semibold text-blue-400"
+                    >
                         Post
                     </button>
                 </form>
