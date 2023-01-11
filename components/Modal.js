@@ -7,19 +7,20 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 
 const client = axios.create({ baseURL: "http://localhost:3000/api/posts" });
-const cloudinary;
+const cloudinary = process.env.NEXT_PUBLIC_CLOUDINARY_KEY;
 
 const Modal = () => {
     const { data: session } = useSession();
     const [open, setOpen] = useRecoilState(modalState);
-
-
-    const [selectedFile, setSelectedFile] = useState(null);
-    const [imgUrl, setImgUrl] = useState("");
-    const [caption, setCaption] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const filePickerRef = useRef(null);
     const captionRef = useRef(null);
+
+    const [selectedFile, setSelectedFile] = useState(null);
+
+    const [caption, setCaption] = useState("");
+    const [imgUrl, setImgUrl] = useState("");
 
     // Renders image preview for post creation
     const addImageToPost = (e) => {
@@ -33,15 +34,28 @@ const Modal = () => {
         };
     };
 
-    const handleSubmit = async (e) => {
-        // Upload to Cloudinary using Cloudinary API
-        const fileInput =
-            e.target.parentNode.parentNode.children[2].children["file"];
-        const formData = new FormData();
+    const uploadPost = async (e) => {
+        setLoading(true);
 
-        for (const file of fileInput.files) {
-            formData.append("file", file);
-        }
+        // Upload to Cloudinary and set imgUrl
+        await imgToUrl(e);
+
+        setTimeout(() => {
+            submitToDb();
+
+            setOpen(false);
+            setLoading(false);
+            setSelectedFile(null);
+            setCaption("");
+        }, 3000);
+    };
+
+    // Upload to Cloudinary using Cloudinary API
+    async function imgToUrl(e) {
+        const fileInput =
+            e.target.parentNode.parentNode.children[2].children["file"].files;
+        const formData = new FormData();
+        formData.append("file", fileInput[0]);
         formData.append("upload_preset", "mighty-uploads");
         const data = await fetch(
             `https://api.cloudinary.com/v1_1/${cloudinary}/image/upload`,
@@ -50,10 +64,22 @@ const Modal = () => {
                 body: formData,
             }
         ).then((res) => res.json());
-        setImgUrl(data.url)
 
-        // Next Step: Save imgUrl, caption, and username to our DB
-    };
+        console.log(data.secure_url);
+        setImgUrl(data.secure_url);
+    }
+
+    async function submitToDb() {
+        const post = {
+            username: session.user.username,
+            image: imgUrl,
+            caption,
+        };
+
+        const data = await axios.post("http://localhost:3000/api/posts", post);
+
+        console.log(data);
+    }
 
     return (
         <form>
@@ -153,11 +179,13 @@ const Modal = () => {
 
                                     <div className="mt-5 sm:mt-6">
                                         <button
-                                            onClick={handleSubmit}
+                                            onClick={uploadPost}
                                             type="button"
                                             className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:text-sm disabled:bg-gray-300 disabled:cursor-not-allowed hover:disabled:bg-gray-300"
                                         >
-                                            Upload Post
+                                            {loading
+                                                ? `Uploading...`
+                                                : `Upload Post`}
                                         </button>
                                     </div>
                                 </div>
