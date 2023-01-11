@@ -1,45 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import { faker } from "@faker-js/faker";
-
-const data = [
-    {
-        id: "123",
-        username: faker.internet.userName(),
-        userAvatar: faker.image.avatar(),
-        img: faker.image.abstract(800, 800, true),
-        caption: "hello world, this is a test",
-    },
-    {
-        id: "124",
-        username: faker.internet.userName(),
-        userAvatar: faker.image.avatar(),
-        img: faker.image.abstract(800, 800, true),
-        caption: "hello world, this is a test",
-    },
-    {
-        id: "125",
-        username: faker.internet.userName(),
-        userAvatar: faker.image.avatar(),
-        img: faker.image.abstract(800, 800, true),
-        caption: "hello world, this is a test",
-    },
-];
+import axios from "axios";
 
 const Posts = () => {
-    return (
-        <div>
-            {data.map((post) => (
-                <Post
-                    key={post.id}
-                    username={post.username}
-                    userAvatar={post.userAvatar}
-                    img={post.img}
-                    caption={post.caption}
-                />
-            ))}
-        </div>
-    );
+    const [posts, setPosts] = useState([]);
+
+    useEffect(() => {
+        // setPosts with GET request to our API
+        axios.get("/api/posts").then((res) => setPosts(res.data.data));
+    }, []);
+
+    return <div>
+        {posts.map(post => <Post id={post._id} key={post._id} username={post.username} avatar={post.avatar} caption={post.caption} image={post.image} date={post.date}/>)}
+    </div>;
 };
 
 export default Posts;

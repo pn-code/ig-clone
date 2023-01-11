@@ -6,7 +6,6 @@ import { BiCamera } from "react-icons/bi";
 import { useSession } from "next-auth/react";
 import axios from "axios";
 
-const client = axios.create({ baseURL: "http://localhost:3000/api/posts" });
 const cloudinary = process.env.NEXT_PUBLIC_CLOUDINARY_KEY;
 
 const Modal = () => {
@@ -20,7 +19,7 @@ const Modal = () => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     const [caption, setCaption] = useState("");
-    const [imgUrl, setImgUrl] = useState("");
+    // const [imgUrl, setImgUrl] = useState("");
 
     // Renders image preview for post creation
     const addImageToPost = (e) => {
@@ -36,49 +35,40 @@ const Modal = () => {
 
     const uploadPost = async (e) => {
         setLoading(true);
-
-        // Upload to Cloudinary and set imgUrl
-        await imgToUrl(e);
-
-        setTimeout(() => {
-            submitToDb();
-
-            setOpen(false);
-            setLoading(false);
-            setSelectedFile(null);
-            setCaption("");
-        }, 3000);
+        await submitToDb(e);
+        setOpen(false);
+        setLoading(false);
+        setSelectedFile(null);
+        setCaption("");
     };
 
-    // Upload to Cloudinary using Cloudinary API
-    async function imgToUrl(e) {
+    async function submitToDb(e) {
+            // Upload to Cloudinary using Cloudinary API
         const fileInput =
             e.target.parentNode.parentNode.children[2].children["file"].files;
         const formData = new FormData();
         formData.append("file", fileInput[0]);
         formData.append("upload_preset", "mighty-uploads");
-        const data = await fetch(
+        const data1 = await fetch(
             `https://api.cloudinary.com/v1_1/${cloudinary}/image/upload`,
             {
                 method: "POST",
                 body: formData,
             }
         ).then((res) => res.json());
+        console.log(data1);
 
-        console.log(data.secure_url);
-        setImgUrl(data.secure_url);
-    }
-
-    async function submitToDb() {
+        // Fetch API and submit to DB
+        const imgUrl = data1.secure_url;
         const post = {
             username: session.user.username,
+            avatar: session.user.image,
             image: imgUrl,
             caption,
         };
 
-        const data = await axios.post("http://localhost:3000/api/posts", post);
-
-        console.log(data);
+        const data2 = await axios.post("http://localhost:3000/api/posts", post);
+        console.log(data2);
     }
 
     return (

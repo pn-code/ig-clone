@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const posts = await Post.find({});
+                const posts = await Post.find({}).sort([['date', -1]])
                 res.json({ status: "Success", data: posts });
             } catch {
                 res.status(400).json({ success: "false" });
@@ -21,6 +21,7 @@ export default async function handler(req, res) {
             try {
                 const postDetail = {
                     username: req.body.username,
+                    avatar: req.body.avatar,
                     image: req.body.image,
                     caption: req.body.caption,
                     date: Date.now(),
@@ -30,7 +31,7 @@ export default async function handler(req, res) {
 
                 const post = await new Post(postDetail);
                 post.save()
-                res.json({ status: "Success!" });
+                res.json({ status: "Success!", post: post });
             } catch (err) {
                 console.log(err);
             }

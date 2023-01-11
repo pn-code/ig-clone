@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Stories from "./Stories";
 import Posts from "./Posts";
 import MiniProfile from "./MiniProfile";
@@ -7,12 +7,13 @@ import { useSession } from "next-auth/react";
 
 const Feed = () => {
     const { data: session } = useSession();
+    const { newPost, setNewPost } = useState(false);
 
     return (
         <main className={`grid grid-cols-1 md:grid-cols-2 md:max-w-3xl xl:grid-cols-3 xl:max-w-6xl mx-auto ${!session && "!grid-cols-1 !max-w-3xl"}`}>
             <section>
                 <Stories />
-                <Posts />
+                <Posts newPost={newPost} setNewPost={setNewPost}/>
             </section>
             {session && (
                 <section className="hidden xl:inline-grid md:col-span-1">
