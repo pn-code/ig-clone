@@ -14,7 +14,7 @@ const PostSchema = new mongoose.Schema({
     date: Date,
     image: String,
     likes: Number,
-    comments: Array,
+    comments: [commentSchema],
 });
 
 module.exports = mongoose.models.Post || mongoose.model("Post", PostSchema);

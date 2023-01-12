@@ -20,7 +20,7 @@ const Post = ({ id, username, avatar, image, caption, date, comments}) => {
             username: session.user.username,
             avatar: session.user.image,
             date: Date.now(),
-            comment,
+            comment: comment
         };
 
         setComment("");
