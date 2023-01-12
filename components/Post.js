@@ -4,14 +4,11 @@ import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsChatDots, BsBookmark, BsEmojiSmile } from "react-icons/bs";
 import { useSession } from "next-auth/react";
 import axios from "axios";
+import Moment from "react-moment";
 
-const Post = ({ id, username, avatar, image, caption, date, comments}) => {
+const Post = ({ id, username, avatar, image, caption, date, comments }) => {
     const { data: session } = useSession();
     const [comment, setComment] = useState("");
-
-    useEffect(() => {
-        
-    }, [])
 
     const sendComment = async (e) => {
         e.preventDefault();
@@ -20,12 +17,15 @@ const Post = ({ id, username, avatar, image, caption, date, comments}) => {
             username: session.user.username,
             avatar: session.user.image,
             date: Date.now(),
-            comment: comment
+            comment: comment,
         };
 
         setComment("");
 
-        const data = await axios.put(`/api/posts/${id}`, { _id: id, comment: commentToSend});
+        const data = await axios.put(`/api/posts/${id}`, {
+            _id: id,
+            comment: commentToSend,
+        });
         console.log(data);
     };
 
@@ -64,7 +64,28 @@ const Post = ({ id, username, avatar, image, caption, date, comments}) => {
                 {caption}
             </p>
             {/* Comments */}
-            { comments.map(comment => <p>{comment.comment}</p>)}
+            {comments.length > 0 && (
+                <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
+                    {comments.map((comment) => (
+                        <div
+                            className="flex items-center space-x-2 mb-3"
+                            key={comment.id}
+                        >
+                            <img
+                                className="h-7 rounded-full"
+                                src={comment.avatar}
+                                alt=""
+                            />
+                            <p className="text-sm flex-1">
+                                <span className="font-bold">
+                                    {comment.username}
+                                </span>{" "}
+                            </p>
+                            <Moment className="pr-5 text-sm" fromNow>{comment.date}</Moment>
+                        </div>
+                    ))}
+                </div>
+            )}
             {/* Input Box */}
             {session && (
                 <form className="flex items-center p-4">
