@@ -20,13 +20,13 @@ export default async function handler(req, res) {
             try {
                 // Grab and check post to see if the user already liked this post
                 const post = await Post.findById(req.body.postId);
-                const isLiked = Boolean(
-                    post.likes.filter((x) => x.uid == req.body.uid).length
-                );
+                const likeIndex = post.likes.findIndex((like) => like.uid == req.body.uid)
+                console.log(likeIndex)
 
                 // If the post has not been liked yet...
-                if (!isLiked) {
-                    // Create new user for use
+                if (likeIndex == -1) {
+                // Create new user for use
+                    console.log(`Pushing user into likes`)
                     const user = await new User({
                         uid: req.body.uid,
                         username: req.body.username,
@@ -36,7 +36,8 @@ export default async function handler(req, res) {
                     await post.save();
                 } else {
                     // If the post has already been liked...
-                    post.likes.splice(post.likes.filter((x) => x.uid != req.body.uid))
+                    console.log(`Removing user ${post.likes[likeIndex]}`)
+                    post.likes.splice(likeIndex, 1)
                     await post.save()
                 }
 

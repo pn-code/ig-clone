@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiDotsHorizontalRounded, BiPaperPlane } from "react-icons/bi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsChatDots, BsBookmark, BsEmojiSmile } from "react-icons/bs";
@@ -21,6 +21,15 @@ const Post = ({
     const [comment, setComment] = useState("");
     const [like, setLike] = useState(false);
 
+    useEffect(() => {
+        // On start, highlight heart icons if the posts are liked
+        setLike(
+            Boolean(
+                likes.filter((like) => like.uid == session?.user?.uid).length
+            )
+        );
+    });
+
     const likePost = async () => {
         const res = await axios.put(`/api/posts/${id}`, {
             postId: id,
@@ -39,7 +48,6 @@ const Post = ({
 
         setFetchAPI(true);
     };
-    console.log(like);
 
     const sendComment = async (e) => {
         e.preventDefault();
