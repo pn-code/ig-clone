@@ -6,9 +6,37 @@ import { useSession } from "next-auth/react";
 import axios from "axios";
 import Moment from "react-moment";
 
-const Post = ({ id, username, avatar, image, caption, date, comments }) => {
+const Post = ({
+    id,
+    username,
+    avatar,
+    image,
+    caption,
+    date,
+    comments,
+    likes,
+    setFetch
+}) => {
+
     const { data: session } = useSession();
     const [comment, setComment] = useState("");
+    const [like, setLike] = useState(false);
+
+    const likePost = async () => {
+        await axios.put(`/api/posts/${id}`, {
+            postId: id,
+            uid: session.user.uid,
+            username: session.user.username,
+            isLike: true,
+        });
+
+        const filter = Boolean(
+            likes.filter((like) => like.uid == session?.user?.uid).length
+        );
+        setLike(filter);
+
+        setFetch(true);
+    };
 
     const sendComment = async (e) => {
         e.preventDefault();
@@ -26,7 +54,8 @@ const Post = ({ id, username, avatar, image, caption, date, comments }) => {
             _id: id,
             comment: commentToSend,
         });
-        console.log(data);
+        
+        setFetch(true)
     };
 
     return (
@@ -49,7 +78,19 @@ const Post = ({ id, username, avatar, image, caption, date, comments }) => {
             {session && (
                 <div className="flex justify-between p-4 border-b">
                     <div className="flex space-x-4">
-                        <AiOutlineHeart className="btn" size={30} />
+                        {like ? (
+                            <AiFillHeart
+                                onClick={likePost}
+                                className="btn"
+                                size={30}
+                            />
+                        ) : (
+                            <AiOutlineHeart
+                                onClick={likePost}
+                                className="btn"
+                                size={30}
+                            />
+                        )}
                         <BsChatDots className="btn" size={20} />
                         <BiPaperPlane className="btn" size={24} />
                     </div>
@@ -65,11 +106,11 @@ const Post = ({ id, username, avatar, image, caption, date, comments }) => {
             </p>
             {/* Comments */}
             {comments.length > 0 && (
-                <div className="ml-10 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
+                <div className="ml-5 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
                     {comments.map((comment) => (
                         <div
                             className="flex items-center space-x-2 mb-3"
-                            key={comment.id}
+                            key={comment._id}
                         >
                             <img
                                 className="h-7 rounded-full"
@@ -80,8 +121,11 @@ const Post = ({ id, username, avatar, image, caption, date, comments }) => {
                                 <span className="font-bold">
                                     {comment.username}
                                 </span>{" "}
+                                {comment.comment}
                             </p>
-                            <Moment className="pr-5 text-sm" fromNow>{comment.date}</Moment>
+                            <Moment className="pr-5 text-sm" fromNow>
+                                {comment.date}
+                            </Moment>
                         </div>
                     ))}
                 </div>

@@ -25,12 +25,11 @@ export default async function handler(req, res) {
                     image: req.body.image,
                     caption: req.body.caption,
                     date: Date.now(),
-                    likes: 0,
+                    likes: [],
                     comments: []
                 };
 
-                const post = await new Post(postDetail);
-                post.save()
+                const post = await new Post(postDetail).save();
                 res.json({ status: "Success!", post: post });
             } catch (err) {
                 console.log(err);

@@ -1,6 +1,7 @@
 import dbConnect from "../../../dbConnect";
 import Post from "../../../models/Post";
 import Comment from "../../../models/Comment";
+import User from "../../../models/User";
 
 export default async function handler(req, res) {
     await dbConnect();
@@ -8,10 +9,38 @@ export default async function handler(req, res) {
         if (req.body.comment) {
             try {
                 const comment = await new Comment(req.body.comment);
-                const post = await Post.findById(req.body._id)
-                post.comments.push(comment)
-                post.save();
+                const post = await Post.findById(req.body._id);
+                post.comments.push(comment);
+                await post.save();
                 res.json({ status: "Success", post: post });
+            } catch {
+                res.status(400).json({ success: "false" });
+            }
+        } else if (req.body.isLike) {
+            try {
+                // Grab and check post to see if the user already liked this post
+                const post = await Post.findById(req.body.postId);
+                const isLiked = Boolean(
+                    post.likes.filter((x) => x.uid == req.body.uid).length
+                );
+
+                // If the post has not been liked yet...
+                if (!isLiked) {
+                    // Create new user for use
+                    const user = await new User({
+                        uid: req.body.uid,
+                        username: req.body.username,
+                    });
+
+                    post.likes.push(user);
+                    await post.save();
+                } else {
+                    // If the post has already been liked...
+                    post.likes.splice(post.likes.filter((x) => x.uid != req.body.uid))
+                    await post.save()
+                }
+
+                res.json({ status: "Success", post: post});
             } catch {
                 res.status(400).json({ success: "false" });
             }
