@@ -84,7 +84,7 @@ const Post = ({
                         {like ? (
                             <AiFillHeart
                                 onClick={likePost}
-                                className="btn"
+                                className="btn text-red-500"
                                 size={30}
                             />
                         ) : (
@@ -103,13 +103,14 @@ const Post = ({
             )}
 
             {/* Caption */}
-            <p className="p-5 truncate flex justify-between">
+            <p className="p-5 truncate">
+                {likes.length > 0 && (
+                    <p className="font-bold mb-1"> {likes.length} likes</p>
+                )}
                 <p>
-                    <span className="font-bold mr-1">{username}</span> {caption}
+                    <span className="font-bold mr-1">{username}</span>
                 </p>
-                <span className="ml-28 sm-text font-semibold">
-                    {likes.length} likes
-                </span>
+                {caption}
             </p>
             {/* Comments */}
             {comments.length > 0 && (
