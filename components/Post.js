@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BiDotsHorizontalRounded, BiPaperPlane } from "react-icons/bi";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsChatDots, BsBookmark, BsEmojiSmile } from "react-icons/bs";
@@ -15,28 +15,31 @@ const Post = ({
     date,
     comments,
     likes,
-    setFetch
+    setFetchAPI,
 }) => {
-
     const { data: session } = useSession();
     const [comment, setComment] = useState("");
     const [like, setLike] = useState(false);
 
     const likePost = async () => {
-        await axios.put(`/api/posts/${id}`, {
+        const res = await axios.put(`/api/posts/${id}`, {
             postId: id,
             uid: session.user.uid,
             username: session.user.username,
             isLike: true,
         });
 
+        const postLikes = res.data.post.likes;
+
         const filter = Boolean(
-            likes.filter((like) => like.uid == session?.user?.uid).length
+            postLikes.filter((like) => like.uid == session?.user?.uid).length
         );
+
         setLike(filter);
 
-        setFetch(true);
+        setFetchAPI(true);
     };
+    console.log(like);
 
     const sendComment = async (e) => {
         e.preventDefault();
@@ -54,8 +57,8 @@ const Post = ({
             _id: id,
             comment: commentToSend,
         });
-        
-        setFetch(true)
+
+        setFetchAPI(true);
     };
 
     return (
@@ -100,9 +103,13 @@ const Post = ({
             )}
 
             {/* Caption */}
-            <p className="p-5 truncate">
-                <span className="font-bold mr-1">{username}</span>
-                {caption}
+            <p className="p-5 truncate flex justify-between">
+                <p>
+                    <span className="font-bold mr-1">{username}</span> {caption}
+                </p>
+                <span className="ml-28 sm-text font-semibold">
+                    {likes.length} likes
+                </span>
             </p>
             {/* Comments */}
             {comments.length > 0 && (

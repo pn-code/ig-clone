@@ -5,15 +5,14 @@ import MiniProfile from "./MiniProfile";
 import Suggestions from "./Suggestions";
 import { useSession } from "next-auth/react";
 
-const Feed = () => {
+const Feed = ({posts, setPosts, fetchAPI, setFetchAPI}) => {
     const { data: session } = useSession();
-    const { newPost, setNewPost } = useState(false);
 
     return (
         <main className={`grid grid-cols-1 md:grid-cols-2 md:max-w-3xl xl:grid-cols-3 xl:max-w-6xl mx-auto ${!session && "!grid-cols-1 !max-w-3xl"}`}>
             <section>
                 <Stories />
-                <Posts newPost={newPost} setNewPost={setNewPost}/>
+                <Posts posts={posts} setPosts={setPosts} fetchAPI={fetchAPI} setFetchAPI={setFetchAPI}/>
             </section>
             {session && (
                 <section className="hidden xl:inline-grid md:col-span-1">

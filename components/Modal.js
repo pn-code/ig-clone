@@ -1,4 +1,4 @@
-import React, { Fragment, useRef, useState } from "react";
+import React, { Fragment, useRef, useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { modalState } from "../atoms/modalAtom";
 import { Dialog, Transition } from "@headlessui/react";
@@ -8,7 +8,7 @@ import axios from "axios";
 
 const cloudinary = process.env.NEXT_PUBLIC_CLOUDINARY_KEY;
 
-const Modal = () => {
+const Modal = ({setFetchAPI }) => {
     const { data: session } = useSession();
     const [open, setOpen] = useRecoilState(modalState);
     const [loading, setLoading] = useState(false);
@@ -17,9 +17,7 @@ const Modal = () => {
     const captionRef = useRef(null);
 
     const [selectedFile, setSelectedFile] = useState(null);
-
     const [caption, setCaption] = useState("");
-    // const [imgUrl, setImgUrl] = useState("");
 
     // Renders image preview for post creation
     const addImageToPost = (e) => {
@@ -40,10 +38,11 @@ const Modal = () => {
         setLoading(false);
         setSelectedFile(null);
         setCaption("");
+        setFetchAPI(true)
     };
 
     async function submitToDb(e) {
-            // Upload to Cloudinary using Cloudinary API
+        // Upload to Cloudinary using Cloudinary API
         const fileInput =
             e.target.parentNode.parentNode.children[2].children["file"].files;
         const formData = new FormData();

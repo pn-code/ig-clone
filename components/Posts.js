@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Post from "./Post";
-import axios from "axios";
 
-const Posts = () => {
-    const [posts, setPosts] = useState([]);
-    const [ fetch, setFetch ] = useState(true);
-
-    useEffect(() => {
-        // setPosts with GET request to our API
-        if (fetch) {
-            axios.get("/api/posts").then((res) => setPosts(res.data.data));
-            console.log("Fetching...")
-            setFetch(false)
-        }
-    }, [ fetch ]);
-
+const Posts = ({posts, setPosts, fetchAPI, setFetchAPI}) => {
     return (
         <div>
-            {posts.map((post) => (
+            {posts.length > 1 && posts.map((post) => (
                 <Post
                     id={post._id}
                     key={post._id}
@@ -28,7 +15,7 @@ const Posts = () => {
                     date={post.date}
                     comments={post.comments}
                     likes={post.likes}
-                    setFetch={setFetch}
+                    setFetchAPI={setFetchAPI}
                 />
             ))}
         </div>
