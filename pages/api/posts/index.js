@@ -32,7 +32,7 @@ export default async function handler(req, res) {
                 const post = await new Post(postDetail).save();
                 res.json({ status: "Success!", post: post });
             } catch (err) {
-                console.log(err);
+                console.error(err);
             }
             break;
     }

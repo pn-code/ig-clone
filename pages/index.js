@@ -10,11 +10,9 @@ export default function Home() {
     const [posts, setPosts] = useState([]);
     const [ fetchAPI, setFetchAPI ] = useState(true);
 
-    console.log(posts)
     useEffect(() => {
         const getPosts = async () => {
             await axios.get("/api/posts").then((res) => setPosts(res.data.data));
-            console.log("Fetching...")
             setFetchAPI(false)
         }
         // setPosts with GET request to our API
