@@ -53,15 +53,14 @@ const Modal = ({ setFetchAPI }) => {
 		const res2 = await axios.post(res1.data.url, formData)
 
 		// Fetch API and submit to DB
-		const imgUrl = res2.secure_url;
+		const imgUrl = res2.data.secure_url;
 		const post = {
 			username: session.user.username,
 			avatar: session.user.image,
 			image: imgUrl,
 			caption,
 		};
-
-		await axios.post(`https://ig.philipnguyen.dev/api/posts`, post);
+		await axios.post(`/api/posts`, post);
 	}
 
 	return (
