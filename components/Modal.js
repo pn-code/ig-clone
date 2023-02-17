@@ -48,16 +48,12 @@ const Modal = ({ setFetchAPI }) => {
 		const formData = new FormData();
 		formData.append("file", fileInput[0]);
 		formData.append("upload_preset", "mighty-uploads");
-		const data = await fetch(
-			`https://api.cloudinary.com/v1_1/${cloudinary}/image/upload`,
-			{
-				method: "POST",
-				body: formData,
-			}
-		).then((res) => res.json());
+
+		const res1 = await axios.get("/api/posts/image")
+		const res2 = await axios.post(res1.data.url, formData)
 
 		// Fetch API and submit to DB
-		const imgUrl = data.secure_url;
+		const imgUrl = res2.secure_url;
 		const post = {
 			username: session.user.username,
 			avatar: session.user.image,
