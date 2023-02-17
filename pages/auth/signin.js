@@ -11,7 +11,7 @@ const signIn = ({ providers }) => {
     return (
         <>
             <Navbar />
-            <div className="flex flex-col items-center justify-center min-h-screen py-2 -mt-56 px-14 text-center">
+            <div className="-mt-20 flex flex-col items-center justify-center min-h-screen py-2 sm:-mt-56 px-14 text-center">
                 <Image src={IgLogo} height={50} alt="" />
                 <p className="font-xs italic">
                     This is NOT a real app. This was built to showcase web

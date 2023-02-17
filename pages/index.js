@@ -2,28 +2,25 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
 import Modal from "../components/Modal";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-
 
 export default function Home() {
     const [posts, setPosts] = useState([]);
-    const [ fetchAPI, setFetchAPI ] = useState(true);
+    const [fetchAPI, setFetchAPI] = useState(true);
 
-    console.log(posts)
     useEffect(() => {
         const getPosts = async () => {
-            await axios.get("/api/posts").then((res) => setPosts(res.data.data));
-            console.log("Fetching...")
-            setFetchAPI(false)
-        }
+            await axios
+                .get("/api/posts")
+                .then((res) => setPosts(res.data.data));
+            setFetchAPI(false);
+        };
         // setPosts with GET request to our API
         if (fetch) {
             getPosts();
         }
-
-
-    }, [ fetchAPI ]);
+    }, [fetchAPI]);
 
     return (
         <div className="bg-gray-50 h-screen overflow-y-scroll scrollbar-hide">
@@ -38,8 +35,18 @@ export default function Home() {
             </Head>
 
             <Navbar />
-            <Feed posts={posts} setPosts={setPosts} fetchAPI={fetchAPI} setFetchAPI={setFetchAPI}/>
-            <Modal posts={posts} setPosts={setPosts} fetchAPI={fetchAPI} setFetchAPI={setFetchAPI}/>
+            <Feed
+                posts={posts}
+                setPosts={setPosts}
+                fetchAPI={fetchAPI}
+                setFetchAPI={setFetchAPI}
+            />
+            <Modal
+                posts={posts}
+                setPosts={setPosts}
+                fetchAPI={fetchAPI}
+                setFetchAPI={setFetchAPI}
+            />
         </div>
     );
 }

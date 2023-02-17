@@ -57,7 +57,7 @@ const Navbar = () => {
                         <Link href="/">
                             <AiFillHome className="navBtn" size={24} />
                         </Link>
-                        <AiOutlineMenu className="md:hidden" size={24} />
+                        <AiOutlineMenu className="md:hidden" size={32} />
                         {session ? (
                             <>
                                 <div className="relative navBtn hidden lg:visible">

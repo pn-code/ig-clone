@@ -111,15 +111,19 @@ const Post = ({
             )}
 
             {/* Caption */}
-            <p className="p-5 truncate">
+            <article className="flex flex-col p-5 truncate">
                 {likes.length > 0 && (
-                    <p className="font-bold mb-1"> {likes.length} likes</p>
+                    <h4 className="font-bold mb-1">
+                        {" "}
+                        {likes.length} likes
+                    </h4>
                 )}
                 <p>
-                    <span className="font-bold mr-1">{username}</span>
+                    <span className="font-bold mr-1 cursor-pointer">{username} </span>
+                    {caption}
                 </p>
-                {caption}
-            </p>
+
+            </article>
             {/* Comments */}
             {comments.length > 0 && (
                 <div className="ml-5 h-20 overflow-y-scroll scrollbar-thumb-black scrollbar-thin">
