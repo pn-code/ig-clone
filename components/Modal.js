@@ -65,7 +65,7 @@ const Modal = ({ setFetchAPI }) => {
 			caption,
 		};
 
-		await axios.post("http://localhost:3000/api/posts", post);
+		await axios.post(`https://ig.philipnguyen.dev/api/posts`, post);
 	}
 
 	return (
