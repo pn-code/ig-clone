@@ -1,23 +1,23 @@
 # igclone
 
-This igclone app was intended to mimic the appearance and functionalities of the popular social media app, Instagram.
-
 <img src="./gh-preview/ig-clone-preview-1.png" alt="app preview"/>
+<a href="https://ig.philipnguyen.dev">See Demo</a>
+
+## About
+
+NextJS app, which mimics Instagram, that allows users to login, add posts,  & like/comment on others' posts.
 
 ## Technologies used
 
-- NextJS / React
-- MongoDB / Mongoose
-
-In this project, I used NextJS to build out the front-end and back-end.
-
----
+- NextJS
+- ReactJS
+- MongoDB
+- Mongoose as ORM
 
 ## Features
 
-As it stands, these are the main features of my igclone web app.
-
-- Google Authentication / Login / Log-out
-- Creating a post
-- Likes on the post
-- Comments on the post
+- AUTH0 Google Authentication / Login / Log-out
+- Users can view others' posts through their feed
+- Users can create posts
+- Users can like others' posts
+- Users can comment on others' posts
