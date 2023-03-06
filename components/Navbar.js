@@ -15,7 +15,7 @@ const Navbar = () => {
     const [open, setOpen] = useRecoilState(modalState);
 
     return (
-        <div className="shadow-sm border-b bg-white sticky top-0 z-50 px-2">
+        <div className="shadow-sm border-b bg-white sticky top-0 z-50 px-2 sm:px-8">
             <div className="flex justify-between items-center max-w-6xl mx-5 lg:mx-auto">
                 {/* Left */}
                 <div>
@@ -88,7 +88,7 @@ const Navbar = () => {
                                 />
                             </div>
                         ) : (
-                            <button onClick={signIn}>Sign In</button>
+                            <button  className="text-blue-500 text-[16px] font-semibold" onClick={signIn}>Sign In</button>
                         )}
                     </div>
                 </div>
