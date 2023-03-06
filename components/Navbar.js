@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Logo from "../public/assets/ig-logo.png"
 import { SiInstagram } from "react-icons/si";
 import { BiSearch, BiPaperPlane, BiPlusCircle } from "react-icons/bi";
 import { AiFillHome, AiOutlineHeart, AiOutlineMenu } from "react-icons/ai";
@@ -14,14 +15,14 @@ const Navbar = () => {
     const [open, setOpen] = useRecoilState(modalState);
 
     return (
-        <div className="shadow-sm border-b bg-white sticky top-0 z-50">
+        <div className="shadow-sm border-b bg-white sticky top-0 z-50 px-4">
             <div className="flex justify-between items-center max-w-6xl mx-5 lg:mx-auto">
                 {/* Left */}
                 <div>
                     <div className="hidden relative lg:inline-grid w-36 h-24">
                         <Link href="/">
                             <Image
-                                src="/../public/assets/ig-logo.png"
+                                src={Logo}
                                 layout="fill"
                                 objectFit="contain"
                                 alt="Instagram"
