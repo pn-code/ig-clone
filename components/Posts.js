@@ -4,7 +4,7 @@ import Post from "./Post";
 const Posts = ({posts, setPosts, fetchAPI, setFetchAPI}) => {
     return (
         <div>
-            {posts.length > 1 && posts.map((post) => (
+            {posts.length > 0 && posts.map((post) => (
                 <Post
                     id={post._id}
                     key={post._id}
