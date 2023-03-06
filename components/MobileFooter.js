@@ -27,7 +27,7 @@ const MobileFooter = () => {
                         </div>
                         <BiPlusCircle
                             onClick={() => setOpenModal(true)}
-                            className=""
+                            className="navBtn"
                             size={24}
                         />
                         <HiOutlineUserGroup className="navBtn" size={24} />
