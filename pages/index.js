@@ -2,6 +2,7 @@ import Head from "next/head";
 import Navbar from "../components/Navbar";
 import Feed from "../components/Feed";
 import Modal from "../components/Modal";
+import MobileFooter from "../components/MobileFooter";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -47,6 +48,7 @@ export default function Home() {
                 fetchAPI={fetchAPI}
                 setFetchAPI={setFetchAPI}
             />
+            <MobileFooter />
         </div>
     );
 }
