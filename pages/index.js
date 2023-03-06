@@ -13,11 +13,11 @@ export default function Home() {
         const getPosts = async () => {
             await axios
                 .get("/api/posts")
-                .then((res) => setPosts(res.data.data));
+                .then((res) => setPosts(res.data.data))
             setFetchAPI(false);
         };
         // setPosts with GET request to our API
-        if (fetch) {
+        if (fetchAPI) {
             getPosts();
         }
     }, [fetchAPI]);
