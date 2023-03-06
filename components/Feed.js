@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Stories from "./Stories";
 import Posts from "./Posts";
 import MiniProfile from "./MiniProfile";
